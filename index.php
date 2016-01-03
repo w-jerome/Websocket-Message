@@ -29,11 +29,17 @@
 			</form>
 		</div>
 		<div class="page_channel">
-			<div class="channel_history"></div>
-			<div class="channel_message">
-				<form action="./" method="post" enctype="multipart/form-data" class="form_channel">
-					<textarea name="form_channel_message"></textarea>
-				</form>
+			<div class="channel-action">
+				<div class="channel-history"></div>
+				<div class="channel-message">
+					<form action="./" method="post" enctype="multipart/form-data" class="form_channel">
+						<textarea name="message" class="form_channel-message"></textarea>
+						<input type="submit" value="Envoyer" class="form_channel-submit">
+					</form>
+				</div>
+			</div>
+			<div class="channel-members">
+				
 			</div>
 		</div>
 		<script src="./js/main.js"></script>

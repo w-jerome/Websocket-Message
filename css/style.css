@@ -58,5 +58,47 @@ body {
  */
 
 .page_channel {
+	display: flex;
+	flex-direction: row;
 	height: 100vh;
+}
+
+.channel-action {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100vh;
+}
+
+.channel-members {
+	width: 250px;
+	background: #faa;
+}
+
+.channel-action .channel-history {
+	flex: 1;
+}
+
+.form_channel {
+	display: flex;
+	flex-direction: row;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.form_channel .form_channel-message {
+	flex: 1;
+	background-color: transparent;
+	border: 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	padding: 0.5em;
+	font-size: 1.2em;
+	color: #fff;
+}
+
+.form_channel .form_channel-submit {
+	border: 0;
+	padding: 1em 1.2em;
+	color: #fff;
+	background: linear-gradient(to bottom, #23a4fa,#1a9bf1);
+	cursor: pointer;
 }
