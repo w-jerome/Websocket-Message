@@ -1,47 +1,86 @@
-<?php require("config.php"); ?>
+<?php require 'config.php'; ?>
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>HTML 5 - Websockets</title>
-		
-		<meta name="description" content="HTML 5 - Websockets">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
-		<link rel="stylesheet" href="./css/normalize.css">
-		<link rel="stylesheet" href="./css/style.css">
-		
-		<script src="./js/jquery-2.1.3.min.js"></script>
-        <script src="./js/fancywebsocket.js"></script>
-		
+	<head>
+		<!-- https://github.com/Flynsarmy/PHPWebSocket-Chat.git -->
+		<meta charset="utf-8">
+		<style>
+			input, textarea {
+				border: 1px solid #CCC;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			#body {
+				max-width: 800px;
+				margin: auto;
+			}
+
+			#log {
+				width: 100%;
+				height: 400px;
+			}
+
+			#message {
+				width: 100%;
+				line-height: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="body">
+			<textarea id="log" name="log" readonly="readonly"></textarea>
+			<br>
+			<input type="text" id="message" name="message">
+		</div>
+
+		<script src="/jquery.min.js"></script>
+		<script src="/fancywebsocket.js"></script>
 		<script>
-		var HOST = "<?= HOST; ?>",
-			PORT = "<?= PORT; ?>";
+			var Server;
+
+			function log(text) {
+				$log = $('#log');
+				//Add text to log
+				$log.append(($log.val()?"\n":'')+text);
+				//Autoscroll
+				$log[0].scrollTop = $log[0].scrollHeight - $log[0].clientHeight;
+			}
+
+			function send(text) {
+				Server.send('message', text);
+			}
+
+			$(document).ready(function() {
+				log('Connecting...');
+				Server = new FancyWebSocket('<?php echo 'ws://'.WS_HOST.':'.WS_PORT; ?>');
+
+				$('#message').keypress(function(e) {
+					if (e.keyCode == 13 && this.value) {
+						log( 'You: ' + this.value );
+						send( this.value );
+
+						$(this).val('');
+					}
+				});
+
+				//Let the user know we're connected
+				Server.bind('open', function() {
+					log( "Connected." );
+				});
+
+				//OH NOES! Disconnection occurred.
+				Server.bind('close', function( data ) {
+					log( "Disconnected." );
+				});
+
+				//Log any messages sent from server
+				Server.bind('message', function( payload ) {
+					log( payload );
+				});
+
+				Server.connect();
+			});
 		</script>
-    </head>
-    <body>
-		<div class="page_login">
-			<form action="./" method="post" enctype="multipart/form-data" class="form_login">
-				<input type="text" name="pseudo" class="form_pseudo" placeholder="Pseudo ..." autocomplete="off">
-				<div class="text-right">
-					<input type="submit" value="Se connecter" class="form_submit">
-				</div>
-			</form>
-		</div>
-		<div class="page_channel">
-			<div class="channel-action">
-				<div class="channel-history"></div>
-				<div class="channel-message">
-					<form action="./" method="post" enctype="multipart/form-data" class="form_channel">
-						<textarea name="message" class="form_channel-message"></textarea>
-						<input type="submit" value="Envoyer" class="form_channel-submit">
-					</form>
-				</div>
-			</div>
-			<div class="channel-members">
-				
-			</div>
-		</div>
-		<script src="./js/main.js"></script>
 	</body>
 </html>
