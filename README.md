@@ -1,9 +1,9 @@
 # A simple PHP WebSocket server example.
 
 To run, open a terminal and type:
-php ./server.php
+`php ./server.php`
 
-Then visit index.html in your browser (You may need to set up a webserver to serve it).
+Then visit `index.html` in your browser (You may need to set up a webserver to serve it).
 
 You'll need IE10+, FF7+ or Chrome 14+ to run this example.
 
